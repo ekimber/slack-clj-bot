@@ -17,12 +17,13 @@
     (catch Exception e (str "DUH: " (.getMessage e)))))
 
 (defroutes app
-           (POST "/" [text] (response {:text (evaluate-clj text)})))
+           (POST "/" [text] (response {:text (evaluate-clj (subs text 4))})))
 
 (def handler
   (-> app
       wrap-params
       wrap-json-response))
+
 
 (defn -main
   "I don't do a whole lot ... yet."
