@@ -9,7 +9,7 @@
                  [ring-server "0.3.1"]
                  [ring/ring-json "0.3.1"]
                  [clojail "1.0.6"]]
-  :main ^:skip-aot cljbot.core
+  :main cljbot.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}
   :ring {:handler cljbot.core/handler})

@@ -17,7 +17,7 @@
     (catch Exception e (str "DUH: " (.getMessage e)))))
 
 (defroutes app
-           (POST "/" [text] (response {:text (evaluate-clj (subs text 4))})))
+           (POST "/" {body :body} (response {:text (evaluate-clj (subs (slurp body) 4))})))
 
 (def handler
   (-> app
