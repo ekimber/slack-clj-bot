@@ -7,7 +7,8 @@
             [ring.middleware.json :refer [wrap-json-response]]
             [clojail.core :refer [sandbox]]
             [clojail.testers :refer [secure-tester]])
-  (:gen-class))
+  (:gen-class)
+  (:import (java.util Properties)))
 
 (def sb (sandbox secure-tester))
 
@@ -16,8 +17,14 @@
     (str (sb (read-string text)))
     (catch Exception e (str "DUH: " (.getMessage e)))))
 
+
+(defn handle-clj
+  [req]
+  (println req)
+  (response {:text (evaluate-clj (-> req :params (get "text") (subs 4)))}))
+
 (defroutes app
-           (POST "/" {body :body} (response {:text (evaluate-clj (subs (slurp body) 4))})))
+           (POST "/" [] handle-clj))
 
 (def handler
   (-> app
